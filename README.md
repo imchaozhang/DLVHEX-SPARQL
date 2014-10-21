@@ -18,14 +18,14 @@ Download Virtuso 6.1.8
 http://downloads.sourceforge.net/virtuoso/virtuoso-opensource-6.1.8.tar.gz
 sed -i "s|virt_iodbc_dir/include|&/iodbc|" configure &&
 
-./configure --prefix=/usr \
- --sysconfdir=/etc \
- --localstatedir=/var \
- --with-iodbc=/usr \
- --with-readline \
- --without-internal-zlib \
- --program-transform-name="s/isql/isql-v/" \
- --disable-all-vads \
+./configure --prefix=/usr 
+ --sysconfdir=/etc 
+ --localstatedir=/var 
+ --with-iodbc=/usr 
+ --with-readline 
+ --without-internal-zlib 
+ --program-transform-name="s/isql/isql-v/" 
+ --disable-all-vads 
  --disable-static &&
 make
 
