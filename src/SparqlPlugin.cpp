@@ -11,9 +11,9 @@
 
 #include "SparqlPlugin.h"
 #include "SparqlAtom.h"
-#include "UpdateAtom.h"
 
-
+namespace dlvhex{
+	namespace sparql {
 
   SparqlPlugin::SparqlPlugin()
 
@@ -29,7 +29,6 @@
           
           // return smart pointer with deleter (i.e., delete code compiled into this plugin)
           ret.push_back(PluginAtomPtr(new SparqlAtom, PluginPtrDeleter<PluginAtom>()));
-          ret.push_back(PluginAtomPtr(new UpdateAtom, PluginPtrDeleter<PluginAtom>()));
           
           return ret;
       }

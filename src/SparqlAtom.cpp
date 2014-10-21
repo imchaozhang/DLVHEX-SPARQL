@@ -18,10 +18,10 @@
 #include <sstream>
 #include <iostream>
 
-#include <soprano/Model>
-#include <soprano/BackendSetting>
-#include <soprano/Backend>
-#include <soprano/Soprano>
+#include <Soprano/Model>
+#include <Soprano/BackendSetting>
+#include <Soprano/Backend>
+#include <Soprano/Soprano>
 
 #include <QtCore/QString>
 

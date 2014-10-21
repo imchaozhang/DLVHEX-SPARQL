@@ -640,6 +640,8 @@ BOOST_CPPFLAGS
 BOOST_ROOT
 QT_LIBS
 QT_CFLAGS
+SOPRANO_LIBS
+SOPRANO_CFLAGS
 REDLAND_LIBS
 REDLAND_CFLAGS
 RAPTOR_LIBS
@@ -819,6 +821,8 @@ RAPTOR_CFLAGS
 RAPTOR_LIBS
 REDLAND_CFLAGS
 REDLAND_LIBS
+SOPRANO_CFLAGS
+SOPRANO_LIBS
 QT_CFLAGS
 QT_LIBS
 BOOST_ROOT'
@@ -1492,6 +1496,10 @@ Some influential environment variables:
               C compiler flags for REDLAND, overriding pkg-config
   REDLAND_LIBS 
               linker flags for REDLAND, overriding pkg-config
+  SOPRANO_CFLAGS 
+              C compiler flags for SOPRANO, overriding pkg-config
+  SOPRANO_LIBS 
+              linker flags for SOPRANO, overriding pkg-config
   QT_CFLAGS   C compiler flags for QT, overriding pkg-config
   QT_LIBS     linker flags for QT, overriding pkg-config
   BOOST_ROOT  Location of Boost installation
@@ -16284,6 +16292,101 @@ $as_echo "yes" >&6; }
 fi
 
 
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for SOPRANO" >&5
+$as_echo_n "checking for SOPRANO... " >&6; }
+
+if test -n "$SOPRANO_CFLAGS"; then
+    pkg_cv_SOPRANO_CFLAGS="$SOPRANO_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"soprano >= 2.9.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "soprano >= 2.9.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_SOPRANO_CFLAGS=`$PKG_CONFIG --cflags "soprano >= 2.9.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes 
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$SOPRANO_LIBS"; then
+    pkg_cv_SOPRANO_LIBS="$SOPRANO_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"soprano >= 2.9.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "soprano >= 2.9.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_SOPRANO_LIBS=`$PKG_CONFIG --libs "soprano >= 2.9.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes 
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+        
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        SOPRANO_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "soprano >= 2.9.0" 2>&1`
+        else 
+	        SOPRANO_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "soprano >= 2.9.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$SOPRANO_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (soprano >= 2.9.0) were not met:
+
+$SOPRANO_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables SOPRANO_CFLAGS
+and SOPRANO_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5        
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables SOPRANO_CFLAGS
+and SOPRANO_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }        
+else
+	SOPRANO_CFLAGS=$pkg_cv_SOPRANO_CFLAGS
+	SOPRANO_LIBS=$pkg_cv_SOPRANO_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	
+fi
+
+
+
+
 # checking for QT
 
 pkg_failed=no
@@ -19343,11 +19446,18 @@ $PACKAGE_TARNAME $PACKAGE_VERSION configuration:
  LDFLAGS: $LDFLAGS
  RAPTOR:$RAPTOR_LIBS
  QT:$QT_LIBS
+ SOPRANO:$SOPRANO_LIBS
 
  - from pkg-config
  DLVHEX_CFLAGS: $DLVHEX_CFLAGS
  DLVHEX_LIBS: $DLVHEX_LIBS
  DLVHEX_BINDIR: $DLVHEX_BINDIR
+ 
+ ________
+ SOPRANO_CFLAGS: $SOPRANO_CFLAGS
+ RAPTOR_CFLAGS: $RAPTOR_CFLAGS
+ QT_CFLAGS: $QT_CFLAGS
+ 
  
  - Path settings
  prefix: $prefix

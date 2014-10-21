@@ -5,17 +5,14 @@ plugin_LTLIBRARIES = libdlvhexplugin-sparql.la
 AM_CPPFLAGS= -I$(top_srcdir)/include \
              $(DEBUG_FLAGS) \
              $(BOOST_CPPFLAGS) \
-             $(RAPTOR_CFLAGS) \
              $(DLVHEX_CFLAGS) \
 			 $(SOPRANO_CFLAGS) \
 			 $(QT_CFLAGS)
 
 libdlvhexplugin_sparql_la_SOURCES = SparqlPlugin.cpp \
-									SparqlAtom.cpp \
-									VirtuosoConn.cpp \
-									UpdateAtom.cpp
+									SparqlAtom.cpp
 
-libdlvhexplugin_sparql_la_LDFLAGS =-version-info="" -avoid-version -module $(RAPTOR_LIBS) $(SOPRANO_LIBS)
+libdlvhexplugin_sparql_la_LDFLAGS =-version-info="" -avoid-version -module $(SOPRANO_LIBS)
 
 libdlvhexplugin-sparql-static.la: $(libdlvhexplugin_sparql_la_OBJECTS)
 	$(CXXLINK) -avoid-version -module -rpath $(plugindir) $(libdlvhexplugin_sparql_la_OBJECTS)
