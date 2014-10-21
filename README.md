@@ -32,6 +32,35 @@ make
 Now, as the root user:
 sudo make install
 
+Setting up ODBC
+===============
+
+Database connection to Virtuoso happens through ODBC. ODBC is configured by two files, 
+
+odbc.ini and odbcinst.ini. On Linux systems they can be found under /etc. In case they don't exist, 
+
+create them.
+
+Add the following lines to the odbcinst.ini file:
+
+[virtuoso-odbc] 
+
+Driver = <prefix>/lib/virtodbc.so 
+
+Add the following lines to the odbc.ini file:
+
+[ODBC Data Sources] 
+
+VOS = Virtuoso 
+
+[VOS] 
+
+Driver = virtuoso-odbc 
+
+Description = Virtuoso Open-Source Edition 
+
+Address = localhost:1111
+
 
 How to install the DLVHEX-SPARQL Plugin:
 ========================================
