@@ -1,0 +1,4 @@
+autoscan: warning: missing AC_PROG_CPP wanted by: 
+	ltmain.sh:2062
+autoscan: warning: missing AC_PROG_RANLIB wanted by: 
+	ltmain.sh:2455

@@ -1,0 +1,18 @@
+from_device(R2,D2,V,H,M,S) :- 
+		&sparql["<http://smarthome.asu.edu>", "?record", "{?record <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#Record>}"](R),
+		&sparql["<http://smarthome.asu.edu>", "?record ?from_device", "{?record	 <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#fromDevice>  ?from_device}"](R,D),
+		&sparql["<http://smarthome.asu.edu>", "?record ?is_value", "{?record  <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isValue>  ?is_value.}"](R,V),
+		&sparql["<http://smarthome.asu.edu>", "?record ?is_hour", "{?record				<http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isHour>		?is_hour.}"](R,H),
+		&sparql["<http://smarthome.asu.edu>", "?record ?is_minute", "{?record				<http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isMinute>		?is_minute.}"](R,M),
+		&sparql["<http://smarthome.asu.edu>", "?record ?is_second", "{?record				<http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isSecond>		?is_second.}"](R,S),
+		&sparql["<http://smarthome.asu.edu>", "?from_device", "{?from_device			<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>			<http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#SmartPhone>}"](D),
+		&split[R,"#",1](R1), &split[R1,">",0](R2),
+		&split[D,"#",1](D1), &split[D1,">",0](D2).
+		
+		
+from_device(R,D) :- 
+	&sparql["<http://smarthome.asu.edu>","*", "{?record  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#Record>.?record				<http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#fromDevice>          ?from_device.}"](R,D).
+		
+
+		
+		

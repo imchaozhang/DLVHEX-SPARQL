@@ -1,0 +1,5 @@
+user("Alice").
+medical_record(U2,"glucose",V,time(H,M,S)) :-	
+&sparql["prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX sh: <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#>",
+"<http://smarthome.asu.edu>","?record ?from_device ?user ?house ?is_value ?is_hour ?is_minute ?is_second", 
+"{?record  rdf:type sh:Record.?record sh:fromDevice ?from_device. ?user sh:liveIn ?house. ?house sh:equippedWith ?from_device. ?record sh:isValue ?is_value. ?record sh:isHour ?is_hour. ?record sh:isMinute      ?is_minute.		?record				sh:isSecond		?is_second.		?from_device			 rdf:type			sh:HeartRateSensor. }"](R,D,U,HO,V,H,M,S), user(U2).

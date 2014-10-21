@@ -1,0 +1,51 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Find the facts from RDF Database
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+exercise(E) :-  &sparql[" ","<http://smarthome.asu.edu>"," * "," { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?o }"](S,O), O = "<http://smarthome.asu.edu/service_ontology#exercise>",&split[S,"#",1](X),&split[X,">",0](E).
+
+
+health_problem(H) :- &sparql[" ", "<http://smarthome.asu.edu>","*","{ ?s  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://smarthome.asu.edu/service_ontology#health_problem>}"](S), &split[S,"#",1](X), &split[X,">",0](H).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Find the sensor data from the RDF Database
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+has_weather(O) :- &sparql[" ", "<http://smarthome.asu.edu>","*","{<http://smarthome.asu.edu/service_ontology#current_weather> <http://smarthome.asu.edu/service_ontology#has_weather> ?o}"](O).
+
+
+health_data("joint_problem").
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Rules for exercise and location
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+each_exercise("yoga","indoor").
+each_exercise("swim","outdoor").
+each_exercise("cycling","outdoor").
+each_exercise("jogging","outdoor").
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Rules for exercise location and weather
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+weather_location("raining","indoor").
+weather_location("cloudy","outdoor").
+weather_location("sunny","outdoor").
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abnormal rules for exercise and health 
+% problem
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ab("jogging","joint_problem").
+ab("cycling","joint_problem").
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% the system will give the exercise suggestion
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+exercise_suggestion(EX,L) :- 
+	exercise(EX), 
+	each_exercise(EX,L), 
+	health_data(H),
+	has_weather(W),
+	weather_location(W,L),
+	not ab(EX,H).

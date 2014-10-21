@@ -1,0 +1,9 @@
+affiliation(A2) :- &sparql["PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX swrc: <http://swrc.ontoware.org/ontology#>",
+" <http://test.com>",
+" $affiliation",
+" { <http://data.semanticweb.org/person/enrico-motta> swrc:affiliation $affiliation}" ](A),
+&split[A,"/",4](A1), &split[A1,">",0](A2).
+
+number(N) :- 
+		&count[affiliation](N), 
+		affiliation(A).

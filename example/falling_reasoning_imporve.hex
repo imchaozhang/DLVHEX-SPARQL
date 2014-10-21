@@ -1,0 +1,18 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define the User name and house
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+user("Alice").
+user("alice").
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Get all the information once
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+information(R) :-
+&sparql["<http://smarthome.asu.edu>", "?record ?from_device ?user ?is_value ?is_hour ?is_minute ?is_second", " {?record <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#Record>.?record <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#fromDevice> ?from_device. ?user <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#equippedWith> ?from_device.  ?record <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isValue> ?is_value. ?record <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isHour> ?is_hour.  ?record<http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isMinute>      ?is_minute.		?record				<http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isSecond>		?is_second.		?from_device			<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#SmartPhone>.} UNION {?record <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#Record>.?record <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#fromDevice> ?from_device. ?user <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#liveIn> ?house. ?house <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#equippedWith> ?from_device. ?record <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isValue> ?is_value. ?record <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isHour> ?is_hour. ?record<http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isMinute>      ?is_minute.		?record				<http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#isSecond>		?is_second.		?from_device			<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>			<http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#HeartRateSensor>. }}"](R,D,U,V,H,M,S).
+
+
+
+

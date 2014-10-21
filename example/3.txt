@@ -1,0 +1,8 @@
+person(P) :- &sparql["PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
+" <http://linkedmdb.org>",
+"*",
+" { ?s ?p ?o }" ](S,P,O).
+
+
+number(N) :- &count[person](N), 
+		person(P).

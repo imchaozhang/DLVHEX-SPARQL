@@ -1,0 +1,7 @@
+
+	
+insert_succeed :- &update["http://smarthome.asu.edu#exercise_suggestion","http://smarthome.asu.edu/service_ontology#exercise_type", "soccer"]().
+		
+		
+record_exercise_suggestion(O) :- &sparql[" ", "<http://smarthome.asu.edu>"," * "," { <http://smarthome.asu.edu#exercise_suggestion> ?p ?o }"](P,O).
+	

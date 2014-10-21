@@ -1,0 +1,8 @@
+person(P,A) :- &sparql["PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX swrc: <http://swrc.ontoware.org/ontology#>",
+" <http://test.com>",
+"$person $affiliation",
+" { $person a foaf:Person. $person swrc:affiliation $affiliation}" ](P,A).
+
+
+number(N) :- &count[person](N), 
+		person(P,A).

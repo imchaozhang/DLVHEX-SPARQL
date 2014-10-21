@@ -1,0 +1,158 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define the User name and house
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+user("Alice").
+user("alice").
+
+house("livingroom1").
+house("kitchen1").
+house("office1").
+house("bedroom1").
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define the current time
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+current_time(12,12,12).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define the benchmark
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+benchmark(USER,min_glucose,40) :- user(USER).
+benchmark(USER,max_heart_beat,150) :- user(USER).
+benchmark(USER,min_heart_beat,10) :- user(USER).
+benchmark(USER,min_exercise_duration,8) :- user(USER).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Get the movement data for user from smartphone device
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+movement(U2,V,time(H,M,S)) :-	
+&sparql["prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX sh: <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#>",
+"<http://smarthome.asu.edu>",
+"?record ?from_device ?user ?is_value ?is_hour ?is_minute ?is_second ", 
+"{?record  rdf:type sh:Record.?record sh:fromDevice ?from_device. ?user sh:equippedWith ?from_device. ?record sh:isValue ?is_value. ?record sh:isHour ?is_hour. ?record sh:isMinute      ?is_minute.		?record				sh:isSecond		?is_second.		?from_device			 rdf:type			sh:SmartPhone. }"](R,D,U,V,H,M,S), 
+&split[R,"#",1](R1), &split[R1,">",0](R2),
+&split[D,"#",1](D1), &split[D1,">",0](D2),
+&split[U,"#",1](U1), &split[U1,">",0](U2),
+user(U2).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Get the heart rate data for user from HeartRateSensor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+medical_record(U2,"heart_rate",V,time(H,M,S)) :-	
+&sparql["prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX sh: <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#>",
+"<http://smarthome.asu.edu>",
+"?record ?from_device ?user ?house ?is_value ?is_hour ?is_minute ?is_second ", 
+"{?record  rdf:type sh:Record.?record sh:fromDevice ?from_device. ?user sh:liveIn ?house. ?house sh:equippedWith ?from_device. ?record sh:isValue ?is_value. ?record sh:isHour ?is_hour. ?record sh:isMinute      ?is_minute.		?record				sh:isSecond		?is_second.		?from_device			 rdf:type			sh:HeartRateSensor. }"](R,D,U,HO,V,H,M,S), 
+&split[R,"#",1](R1), &split[R1,">",0](R2),
+&split[D,"#",1](D1), &split[D1,">",0](D2),
+&split[U,"#",1](U1), &split[U1,">",0](U2),
+user(U2).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Get the glucose data for user from GlucoseSensor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+medical_record(U2,"glucose",V,time(H,M,S)) :-	
+&sparql["prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX sh: <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#>",
+"<http://smarthome.asu.edu>","?record ?from_device ?user ?house ?is_value ?is_hour ?is_minute ?is_second", 
+"{?record  rdf:type sh:Record.?record sh:fromDevice ?from_device. ?user sh:liveIn ?house. ?house sh:equippedWith ?from_device. ?record sh:isValue ?is_value. ?record sh:isHour ?is_hour. ?record sh:isMinute      ?is_minute.		?record				sh:isSecond		?is_second.		?from_device			 rdf:type			sh:HeartRateSensor. }"](R,D,U,HO,V,H,M,S), 
+&split[R,"#",1](R1), &split[R1,">",0](R2),
+&split[D,"#",1](D1), &split[D1,">",0](D2),
+&split[U,"#",1](U1), &split[U1,">",0](U2),
+user(U2).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Get the action data for user from Camera
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+action_record(U2,V,time(H,M,S)) :-	
+&sparql["prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX sh: <http://www.semanticweb.org/ontologies/2012/6/Ontology1342767766272.owl#>",
+"<http://smarthome.asu.edu>",
+"?record ?from_device ?user ?room ?is_value ?is_hour ?is_minute ?is_second", 
+"{?record  rdf:type sh:Record. ?record sh:fromDevice ?from_device. ?user sh:hasRoom ?room. ?room sh:equippedWith ?from_device. ?record sh:isValue ?is_value. ?record sh:isHour ?is_hour. ?record sh:isMinute      ?is_minute.		?record				sh:isSecond		?is_second.		?from_device			 rdf:type			sh:Camera. }"](R,D,U,RO,V,H,M,S), 
+&split[R,"#",1](R1), &split[R1,">",0](R2),
+&split[D,"#",1](D1), &split[D1,">",0](D2),
+&split[U,"#",1](U1), &split[U1,">",0](U2),
+&split[RO,"#",1](RO1), &split[RO1,">",0](RO2),
+user(U2).
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Any record that is not the most current one is 
+% classified as outdated
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+outdated_action(USER,ACT,time(H,M,S)) :-
+	action_record(USER,ACT,time(H,M,S)), action_record(USER,ACT,time(H1,M1,S1)), 
+			&diff[H1,M1,H,M](Sign,Number), Sign == "+".
+	
+outdated_medical(USER,TYPE,VALUE,time(H,M,S)) 
+	:- medical_record(USER,TYPE,VALUE,time(H,M,S)),medical_record(USER,TYPE,VALUE1,time(H1,M1,S1)),
+		&diff[H1,M1,H,M](Sign,Number), Sign == "+".
+
+last_action(USER,ACT,time(H,M,S)) 
+	:- action_record(USER,ACT,time(H,M,S)), not outdated_action(USER,ACT,time(H,M,S)).
+
+last_medical(USER,TYPE,VALUE,time(H,M,S)) 
+	:- medical_record(USER,TYPE,VALUE,time(H,M,S)), 
+		not outdated_medical(USER,TYPE,VALUE,time(H,M,S)).
+
+eat_after_last_insulin_intake(USER) 
+	:- last_action(USER,"take_insulin",time(H,M,S)), action_record(USER,"eat",time(H1,M1,S1)), 
+		&diff[H1,M1,H,M](Sign,Number), Sign == "+".
+
+low_glucose_level(USER) 
+	:- last_medical(USER,"glucose",VALUE,time(H,M,S)), 
+		benchmark(USER,min_glucose,N), VALUE < N.
+fast_heart_beat(USER) 
+	:- last_medical(USER,"heart_rate",VALUE,time(H,M,S)), 
+		benchmark(USER,max_heart_beat,N),VALUE > N.
+low_heart_beat(USER) 
+	:- last_medical(USER,"heart_rate",VALUE,time(H,M,S)), 
+		benchmark(USER,min_heart_beat,N), VALUE < N.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% in each minute if the patient runs for more than 
+% half of the minute, 
+% then we consider he/she is running for the whole 
+% minute to reduce some device error noise
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%		
+m(USER,"run",H,M,S) :- movement(USER,"run",time(H,M,S)).
+
+is_running_at_time(USER,H,M) :- 
+	&count[m,USER,"run",H,M](N), m(USER,"run",H,M,S), N >6.
+	
+is_running_in_last_half_hour_at_time(USER,H,M)
+	:-is_running_at_time(USER,H,M),current_time(H1,M1,S1),
+	&diff[H1,M1,H,M](Sign,Number), Sign == "+", Number <30. 
+
+exercised_minute_in_last_half_hour(USER,N) 
+	:- &count[is_running_in_last_half_hour_at_time](N), 
+		is_running_in_last_half_hour_at_time(USER,H,M).
+		
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+% Reasoning
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+
+% insulin shock caused falling if glucose level is below 40 and didn't eat anything after last insulin intake
+reason_of_falling(USER,"insulin_shock") 
+	:- movement(USER,"fall",time(H,M,S)),low_glucose_level(USER), 
+		not eat_after_last_insulin_intake(USER).
+
+% having a heart attack causes falling if the heart almost stop beating
+reason_of_falling(USER,"heart_attack") 
+	:- movement(USER,"fall",time(H,M,S)), low_heart_beat(USER).
+
+% exercising too much causes falling if heart beat is over 160 and exercise over 8 minutes in the past 30 minutes
+reason_of_falling(USER,"intensive_exercise") 
+	:- movement(USER,"fall",time(H,M,S)), fast_heart_beat(USER), 
+		exercised_minute_in_last_half_hour(USER,VALUE), 
+		benchmark(USER,min_exercise_duration,N), VALUE > N.
+
