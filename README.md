@@ -32,6 +32,19 @@ make
 Now, as the root user:
 sudo make install
 
+Getting Virtuoso Started
+========================
+
+Run the following command to start the virtuoso server
+
+cd /usr/var/lib/virtuoso/db 
+
+sudo virtuoso-t -f
+
+Now, open a browser to the virtuoso admin interface: 
+
+http://localhost:8890/
+
 Setting up ODBC
 ===============
 
