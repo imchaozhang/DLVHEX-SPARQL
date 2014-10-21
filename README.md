@@ -37,3 +37,4 @@ How to install the DLVHEX-SPARQL Plugin:
 ========================================
 
 sudo ./configure QT_CFLAGS=/opt/Qt/5.3/gcc_64/include/ QT_LIBS=/opt/Qt/5.3/gcc_64/lib PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+sudo make && sudo make install
